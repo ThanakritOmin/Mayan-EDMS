@@ -6,23 +6,93 @@ from django.urls import reverse
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
+from colorful.fields import RGBColorField
+
 from mayan.apps.databases.model_mixins import ExtraDataModelMixin
 from mayan.apps.events.classes import EventManagerSave
 from mayan.apps.events.decorators import method_event
 
 from .events import event_theme_created, event_theme_edited
 
-
+FONT_CHOICES = (
+    ('Ubantu','Ubantu font'),
+    ('Rubik','Rubik font'),
+    ('Inter','Inter font'),
+    ('Mukta','Mukta font'),
+    ('Kanit','Kanit font'),
+    ('Roboto', 'Roboto font'),
+    ('Prompt','Prompt font'),
+)
 class Theme(ExtraDataModelMixin, models.Model):
     label = models.CharField(
-        db_index=True, help_text=_('A short text describing the theme.'),
-        max_length=128, unique=True, verbose_name=_('Label')
+        db_index=True,
+        max_length=128, unique=True, verbose_name=_('ชื่อธีม')
     )
     stylesheet = models.TextField(
-        blank=True, help_text=_(
-            'The CSS stylesheet to change the appearance of the different '
-            'user interface elements.'
-        ), verbose_name=_('Stylesheet')
+        blank=True,
+        verbose_name=_('Stylesheet')
+    )
+    font = models.CharField(
+        max_length=100,
+        blank=True,
+        choices=FONT_CHOICES,
+        verbose_name=_('แบบอักษร')
+    )
+    color_font_header = RGBColorField(
+        blank=True,
+        verbose_name=_('สีแบบอักษร')
+    )
+    background_color_header = RGBColorField(
+        blank=True,
+        verbose_name=_('สีส่วน Header')
+    )
+    background_color_menu = RGBColorField(
+        blank=True,
+        verbose_name=_('สีส่วนพื้นหลัง Menu')
+    )
+    background_color_header_panel = RGBColorField(
+        blank=True,
+        verbose_name=_('สีส่วนพื้นหลังเมนูด้านบน')
+    )
+    background_website = RGBColorField(
+        blank=True,
+        verbose_name=_('สีพื้นหลังเว็ปไซต์')
+    )
+    background_menu_dropdown = RGBColorField(
+        blank=True,
+        verbose_name=_('สีส่วนพื้นหลังเมนูด้านข้าง')
+    )
+    btn_color_primary = RGBColorField(
+        blank=True,
+        verbose_name=_('สีปุ่มกด Primary')
+    )
+    btn_color_danger = RGBColorField(
+        blank=True,
+        verbose_name=_('สีปุ่มกด Danger')
+    )
+    btn_color_success = RGBColorField(
+        blank=True,
+        verbose_name=_('สีปุ่มกด Success')
+    )
+    btn_color_default = RGBColorField(
+        blank=True,
+        verbose_name=_('สีปุ่มกด Default')
+    )
+    font_size_header = models.IntegerField(
+        default=19,
+        verbose_name=_('ขนาดตัวอักษรส่วน Header')
+    )
+    font_size_menu = models.IntegerField(
+        default=15,
+        verbose_name=_('ขนาดตัวอักษรส่วน Menu')
+    )
+    font_size_content_title = models.IntegerField(
+        default=23,
+        verbose_name=_('ขนาดตัวอักษรส่วน Content')
+    )
+    menu_text_color = RGBColorField(
+        blank=True,
+        verbose_name=_('สีตัวอักษรของเมนูต่างๆ')
     )
 
     class Meta:

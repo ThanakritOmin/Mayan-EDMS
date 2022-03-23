@@ -38,7 +38,8 @@ class CurrentUserThemeSettingsEditView(SingleObjectEditView):
     post_action_redirect = reverse_lazy(
         viewname='appearance:current_user_theme_settings_details'
     )
-
+    view_permission = permission_theme_create
+    
     def get_object(self):
         return self.request.user.theme_settings
 

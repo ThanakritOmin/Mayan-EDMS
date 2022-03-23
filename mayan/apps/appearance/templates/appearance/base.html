@@ -23,10 +23,20 @@
 </script>
 
 {% block stylesheets %}{% endblock %}
-
+<link href="https://fonts.googleapis.com/css?family={% get_font_link %}" rel="stylesheet">
+<script>
+    data = "{% appearance_get_user_theme_script %}";
+    listData = data.split("|")
+    //FontSize 
+    $(".navbar-brand").css("fontSize",  listData[0]+"px");
+    $("#accordion-sidebar .panel-title").css("fontSize",  listData[1]+"px");
+    $(".navbar.navbar-default.navbar-fixed-top li.dropdown a.dropdown-toggle, li a svg.fa-bell,svg.fa-inbox").css("fontSize",  listData[1]+"px");
+    $("#content-title").css("fontSize",  listData[2]+"px");
+</script>
 <style>
     {% appearance_get_user_theme_stylesheet user=request.user %}
 </style>
+
 
 {% if appearance_type == 'plain' %}
     {% block content_plain %}{% endblock %}
